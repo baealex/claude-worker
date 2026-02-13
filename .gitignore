@@ -80,7 +80,12 @@ out
 
 # Nuxt.js build / generate output
 .nuxt
-dist
+
+# Build artifacts
+apps/cli/dist/
+apps/cli/dist-client/
+apps/cli/prisma/schema.prisma
+apps/server/dist/
 
 # Gatsby files
 .cache/
