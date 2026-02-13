@@ -31,7 +31,12 @@ Follow-up                 │  Push    │
 npx vampire
 ```
 
-Open **http://localhost:3333**.
+The server starts on a random available port (assigned by the OS).
+Use `--port` to specify a port:
+
+```bash
+npx vampire --port 3333
+```
 
 ### Get started
 
