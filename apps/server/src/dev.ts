@@ -6,6 +6,10 @@ import { createApp } from './index.js';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = join(__dirname, '..', '..', '..');
 
+// DATABASE_URL 설정 (절대경로)
+const dbPath = join(rootDir, 'dev.db');
+process.env.DATABASE_URL = `file:${dbPath}`;
+
 // DB 마이그레이션 (스키마 → SQLite 자동 동기화)
 execFileSync('npx', ['prisma', 'db', 'push', '--skip-generate'], {
   cwd: rootDir,
