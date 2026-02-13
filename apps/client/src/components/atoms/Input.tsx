@@ -27,10 +27,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
                 <input
                     ref={ref}
                     className={`
-            w-full bg-surface-raised border border-border-default
-            text-text-primary text-sm rounded-md px-3 py-2.5
+            w-full bg-surface-base border border-border-default
+            text-text-primary text-sm rounded-lg px-3 py-2.5
             placeholder:text-text-tertiary
-            focus:outline-none focus:ring-2 focus:ring-accent-primary/50 focus:border-accent-primary
+            focus:outline-none focus:ring-2 focus:ring-accent-primary/20 focus:border-accent-primary/50
             disabled:opacity-50 disabled:cursor-not-allowed
             transition-all duration-200
             ${error ? 'border-status-error focus:ring-status-error/50 focus:border-status-error' : ''}

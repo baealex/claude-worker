@@ -20,7 +20,7 @@ export default function Button({
     disabled,
     ...props
 }: ButtonProps) {
-    const baseStyles = "inline-flex items-center justify-center rounded-md font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface-base disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer";
+    const baseStyles = "inline-flex items-center justify-center rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface-base disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer";
 
     const variants: Record<ButtonVariant, string> = {
         primary: "bg-accent-primary text-text-on-accent hover:bg-accent-secondary focus:ring-accent-primary shadow-sm",

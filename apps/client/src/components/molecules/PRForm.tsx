@@ -19,20 +19,20 @@ export default function PRForm({ defaultTitle, defaultBody, onSubmit }: PRFormPr
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-                <label className="text-xs font-medium text-text-secondary ml-1 mb-1 block">PR Title</label>
+                <label className="text-xs font-medium text-text-secondary ml-1 mb-1.5 block">PR Title</label>
                 <input
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="w-full bg-surface-base border border-border-default text-text-primary text-sm rounded-md px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent-primary/50"
+                    className="w-full bg-surface-base border border-border-default text-text-primary text-sm rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent-primary/20 focus:border-accent-primary/50 transition-all"
                 />
             </div>
             <div>
-                <label className="text-xs font-medium text-text-secondary ml-1 mb-1 block">PR Body</label>
+                <label className="text-xs font-medium text-text-secondary ml-1 mb-1.5 block">PR Body</label>
                 <textarea
                     value={body}
                     onChange={(e) => setBody(e.target.value)}
                     rows={8}
-                    className="w-full bg-surface-base border border-border-default text-text-primary text-sm rounded-md px-3 py-2.5 resize-y focus:outline-none focus:ring-2 focus:ring-accent-primary/50 font-mono"
+                    className="w-full bg-surface-base border border-border-default text-text-primary text-sm rounded-lg px-3 py-2.5 resize-y focus:outline-none focus:ring-2 focus:ring-accent-primary/20 focus:border-accent-primary/50 font-mono transition-all"
                 />
             </div>
             <div className="flex justify-end">

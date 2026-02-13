@@ -4,6 +4,7 @@ export interface Project {
   path: string;
   baseBranch: string;
   prompt: string;
+  provider: string;
   createdAt: string;
   jobs?: Job[];
 }
@@ -12,8 +13,9 @@ export interface Job {
   id: number;
   projectId: number;
   project?: Project;
-  issueNo: number;
+  issueNo: number | null;
   issueTitle: string;
+  description: string;
   type: string;
   status: string;
   branch: string | null;

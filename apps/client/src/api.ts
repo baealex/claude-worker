@@ -3,9 +3,13 @@ import type { Project, Job } from './types';
 const BASE = '/api';
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
+  const headers: Record<string, string> = {};
+  if (options.body) {
+    headers['Content-Type'] = 'application/json';
+  }
   const res = await fetch(`${BASE}${path}`, {
-    headers: { 'Content-Type': 'application/json' },
     ...options,
+    headers: { ...headers, ...options.headers as Record<string, string> },
   });
   if (res.status === 204) return null as T;
   const data = await res.json();
@@ -20,9 +24,9 @@ export const api = {
     request<{ dir: string; entries: BrowseEntry[] }>(`/browse${path ? `?path=${encodeURIComponent(path)}` : ''}`),
   getProjects: () => request<{ projects: Project[] }>('/projects'),
   getProject: (id: string | number) => request<{ project: Project }>(`/projects/${id}`),
-  createProject: (body: { name: string; path: string; baseBranch?: string }) =>
+  createProject: (body: { name: string; path: string; baseBranch?: string; provider?: string }) =>
     request<{ project: Project }>('/projects', { method: 'POST', body: JSON.stringify(body) }),
-  updateProject: (id: string | number, body: { prompt?: string }) =>
+  updateProject: (id: string | number, body: { prompt?: string; provider?: string }) =>
     request<{ project: Project }>(`/projects/${id}`, { method: 'PATCH', body: JSON.stringify(body) }),
   deleteProject: (id: string | number) =>
     request<null>(`/projects/${id}`, { method: 'DELETE' }),
@@ -40,4 +44,9 @@ export const api = {
     request<{ job: Job }>(`/jobs/${jobId}/followup`, { method: 'POST', body: JSON.stringify(body) }),
   createPR: (jobId: string | number, body: { prTitle: string; prBody: string }) =>
     request<{ job: Job }>(`/jobs/${jobId}/pr`, { method: 'POST', body: JSON.stringify(body) }),
+
+  getProviders: () =>
+    request<{ providers: { name: string; displayName: string; comingSoon?: boolean }[] }>('/providers'),
+  testProvider: (name: string) =>
+    request<{ ok: boolean; message: string }>(`/providers/${name}/test`, { method: 'POST' }),
 };

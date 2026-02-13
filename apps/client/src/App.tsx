@@ -3,6 +3,7 @@ import MainLayout from './components/templates/MainLayout';
 import Dashboard from './routes/Dashboard';
 import ProjectDetail from './routes/ProjectDetail';
 import JobDetail from './routes/JobDetail';
+import Settings from './routes/Settings';
 
 export default function App() {
     return (
@@ -12,6 +13,7 @@ export default function App() {
                     <Route index element={<Dashboard />} />
                     <Route path="projects/:id" element={<ProjectDetail />} />
                     <Route path="projects/:id/jobs/:jobId" element={<JobDetail />} />
+                    <Route path="settings" element={<Settings />} />
                 </Route>
             </Routes>
         </BrowserRouter>

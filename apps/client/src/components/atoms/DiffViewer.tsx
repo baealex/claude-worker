@@ -13,10 +13,10 @@ function classifyLine(line: string): 'add' | 'remove' | 'header' | 'range' | 'co
 }
 
 const lineStyles: Record<ReturnType<typeof classifyLine>, string> = {
-    add: 'bg-[#12261e] text-[#4ade80]',
-    remove: 'bg-[#2a1515] text-[#f87171]',
-    header: 'bg-surface-overlay text-text-tertiary font-semibold',
-    range: 'bg-[#1a1a2e] text-[#60a5fa]',
+    add: 'bg-status-success/5 text-status-success',
+    remove: 'bg-status-error/5 text-status-error',
+    header: 'bg-surface-overlay/50 text-text-tertiary font-semibold',
+    range: 'bg-accent-primary/5 text-accent-primary/80',
     context: 'text-text-secondary',
 };
 

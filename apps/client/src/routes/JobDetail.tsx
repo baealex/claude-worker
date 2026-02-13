@@ -116,35 +116,33 @@ export default function JobDetail() {
     const hasPR = !!job.prUrl;
 
     return (
-        <div className="max-w-6xl mx-auto space-y-6 animate-fade-in">
-            <div className="flex flex-col gap-1">
-                <Breadcrumb
-                    items={[
-                        { label: 'Dashboard', to: '/' },
-                        { label: job.project!.name, to: `/projects/${job.project!.id}` },
-                        { label: `Issue #${job.issueNo}` },
-                    ]}
-                />
-            </div>
+        <div className="max-w-6xl mx-auto space-y-5 animate-fade-in">
+            <Breadcrumb
+                items={[
+                    { label: 'Dashboard', to: '/' },
+                    { label: job.project!.name, to: `/projects/${job.project!.id}` },
+                    { label: job.issueNo != null ? `Issue #${job.issueNo}` : (job.issueTitle || `Job #${job.id}`) },
+                ]}
+            />
 
-            <div className="flex justify-between items-start border-b border-border-default pb-6">
+            <div className="flex justify-between items-start border-b border-border-subtle pb-5">
                 <div>
-                    <h1 className="text-2xl font-bold text-text-primary mb-2 flex items-center gap-3">
-                        {job.issueTitle || `${job.type} #${job.issueNo}`}
+                    <h1 className="text-xl font-bold text-text-primary mb-2 flex items-center gap-3 tracking-tight">
+                        {job.issueTitle || (job.issueNo != null ? `${job.type} #${job.issueNo}` : job.type)}
                         <Badge variant={status === 'completed' ? 'success' : status === 'failed' ? 'error' : status === 'running' ? 'accent' : status === 'cancelled' ? 'warning' : 'neutral'}>
                             {status}
                         </Badge>
                     </h1>
-                    <div className="flex gap-4 text-sm text-text-secondary">
-                        <span className="font-mono bg-surface-raised px-2 py-0.5 rounded text-xs">{job.type}</span>
-                        {job.branch && <span className="font-mono bg-surface-raised px-2 py-0.5 rounded text-xs">{job.branch}</span>}
+                    <div className="flex gap-3 text-xs text-text-secondary">
+                        <span className="font-mono bg-surface-overlay px-2 py-0.5 rounded">{job.type}</span>
+                        {job.branch && <span className="font-mono bg-surface-overlay px-2 py-0.5 rounded">{job.branch}</span>}
                         <span className="text-text-tertiary">{new Date(job.createdAt).toLocaleString()}</span>
                     </div>
                 </div>
 
                 <div className="flex items-center gap-2">
                     {status === 'running' && (
-                        <Button variant="danger" size="sm" onClick={handleCancel}>Cancel Job</Button>
+                        <Button variant="danger" size="sm" onClick={handleCancel}>Cancel</Button>
                     )}
                     {(status === 'failed' || status === 'cancelled') && (
                         <Button variant="secondary" size="sm" onClick={handleRetry}>Retry</Button>
@@ -161,38 +159,39 @@ export default function JobDetail() {
 
             <WorkerStatus status={status} />
 
-            {/* PR 생성 완료 배너 */}
+            {/* PR Created Banner */}
             {hasPR && (
-                <div className="bg-[#1a2a1a] border border-[#2a4a2a] rounded-lg px-5 py-4 flex items-center gap-3">
-                    <span className="text-sm font-semibold text-status-success">PR Created</span>
-                    <a href={job.prUrl!} className="text-status-success hover:underline text-sm" target="_blank" rel="noopener noreferrer">
+                <div className="bg-status-success/5 border border-status-success/20 rounded-lg px-5 py-3 flex items-center gap-3">
+                    <div className="w-2 h-2 rounded-full bg-status-success" />
+                    <span className="text-sm font-medium text-status-success">PR Created</span>
+                    <a href={job.prUrl!} className="text-status-success/80 hover:text-status-success hover:underline text-sm ml-1 truncate" target="_blank" rel="noopener noreferrer">
                         {job.prUrl}
                     </a>
                 </div>
             )}
 
-            {/* PR Form if ready */}
+            {/* PR Form */}
             {isCompleted && hasBranch && !hasPR && (
-                <div className="bg-surface-raised border border-border-default rounded-lg p-5">
-                    <h3 className="text-lg font-semibold mb-4 text-text-primary">Create Pull Request</h3>
+                <div className="bg-surface-raised border border-border-subtle rounded-lg p-5">
+                    <h3 className="text-base font-semibold mb-4 text-text-primary">Create Pull Request</h3>
                     <PRForm
-                        defaultTitle={job.prTitle || `${job.type}: Issue #${job.issueNo}`}
+                        defaultTitle={job.prTitle || (job.issueNo != null ? `${job.type}: Issue #${job.issueNo}` : `${job.type}: ${job.issueTitle}`)}
                         defaultBody={job.prBody || ''}
                         onSubmit={handleCreatePR}
                     />
                 </div>
             )}
 
-            {/* Follow-up: 추가 수정 요청 */}
+            {/* Follow-up */}
             {isCompleted && hasBranch && !hasPR && (
-                <div className="bg-surface-raised border border-border-default rounded-lg p-5">
-                    <h3 className="text-sm font-semibold mb-3 text-text-primary">Request Changes</h3>
+                <div className="bg-surface-raised border border-border-subtle rounded-lg p-5">
+                    <h3 className="text-sm font-semibold mb-2 text-text-primary">Request Changes</h3>
                     <p className="text-xs text-text-tertiary mb-3">
-                        결과물에 수정이 필요하면 피드백을 입력하세요. 같은 브랜치에서 이어서 작업합니다.
+                        Provide feedback to continue work on the same branch.
                     </p>
                     <textarea
-                        className="w-full h-24 bg-surface-base border border-border-default rounded-lg p-3 text-sm text-text-primary focus:border-accent-primary outline-none resize-none"
-                        placeholder="e.g. 에러 핸들링 추가해줘, 변수명을 camelCase로 바꿔줘..."
+                        className="w-full h-20 bg-surface-base border border-border-default rounded-lg p-3 text-sm text-text-primary placeholder:text-text-tertiary focus:border-accent-primary/50 focus:ring-2 focus:ring-accent-primary/20 outline-none resize-none transition-all"
+                        placeholder="Describe the changes you'd like..."
                         value={followUpMessage}
                         onChange={(e) => setFollowUpMessage(e.target.value)}
                     />
@@ -210,9 +209,9 @@ export default function JobDetail() {
                 </div>
             )}
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[600px]">
-                <div className="bg-surface-raised border border-border-default rounded-lg overflow-hidden flex flex-col">
-                    <div className="px-4 py-2 border-b border-border-default bg-surface-overlay text-xs font-semibold text-text-secondary uppercase">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 h-[600px]">
+                <div className="bg-surface-raised border border-border-subtle rounded-lg overflow-hidden flex flex-col">
+                    <div className="px-4 py-2 border-b border-border-subtle bg-surface-overlay/50 text-[11px] font-semibold text-text-tertiary uppercase tracking-wider">
                         File Changes
                     </div>
                     <div className="flex-1 overflow-auto p-0">
@@ -220,11 +219,11 @@ export default function JobDetail() {
                     </div>
                 </div>
 
-                <div className="bg-surface-raised border border-border-default rounded-lg overflow-hidden flex flex-col">
-                    <div className="px-4 py-2 border-b border-border-default bg-surface-overlay text-xs font-semibold text-text-secondary uppercase">
-                        Claude Code Output
+                <div className="bg-surface-raised border border-border-subtle rounded-lg overflow-hidden flex flex-col">
+                    <div className="px-4 py-2 border-b border-border-subtle bg-surface-overlay/50 text-[11px] font-semibold text-text-tertiary uppercase tracking-wider">
+                        Output
                     </div>
-                    <div className="flex-1 overflow-auto bg-[#0d0d0d] font-mono text-xs">
+                    <div className="flex-1 overflow-auto bg-surface-base font-mono text-xs">
                         <LogViewer log={log} status={status} />
                     </div>
                 </div>

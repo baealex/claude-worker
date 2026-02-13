@@ -30,14 +30,11 @@ export default function MainLayout() {
                 </div>
             </main>
 
-            {isCreating && (
-                <CreateProjectModal
-                    onClose={() => setIsCreating(false)}
-                    onCreated={() => {
-                        triggerRefresh();
-                    }}
-                />
-            )}
+            <CreateProjectModal
+                open={isCreating}
+                onOpenChange={setIsCreating}
+                onCreated={triggerRefresh}
+            />
         </div>
     );
 }
