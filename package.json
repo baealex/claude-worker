@@ -1,37 +1,19 @@
 {
-  "name": "claude-worker",
-  "version": "1.0.0",
+  "name": "vampire-monorepo",
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "concurrently -k -n api,client -c blue,green \"tsx server.ts\" \"vite --config client/vite.config.ts\"",
-    "dev:api": "tsx server.ts",
-    "dev:client": "vite --config client/vite.config.ts",
-    "build": "vite build --config client/vite.config.ts",
-    "typecheck": "tsc --noEmit && tsc --noEmit -p client/tsconfig.json",
+    "dev": "pnpm -r --parallel dev",
+    "build": "pnpm --filter @vampire/client build && pnpm --filter vampire build",
+    "typecheck": "pnpm -r typecheck",
+    "release": "pnpm build && cd apps/cli && npm publish --access public",
+    "release:dry": "pnpm build && cd apps/cli && npm publish --dry-run",
     "db:push": "prisma db push",
+    "db:generate": "prisma generate",
     "db:studio": "prisma studio"
   },
-  "dependencies": {
-    "@fastify/static": "^8.0.0",
-    "@iconify/react": "^6.0.2",
-    "@prisma/client": "^6.0.0",
-    "fastify": "^5.0.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-router": "^7.0.0"
-  },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.0.0",
-    "@types/node": "^25.2.3",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^4.3.0",
-    "concurrently": "^9.2.1",
     "prisma": "^6.0.0",
-    "tailwindcss": "^4.0.0",
-    "tsx": "^4.21.0",
-    "typescript": "^5.9.3",
-    "vite": "^6.0.0"
+    "typescript": "^5.9.3"
   }
 }
