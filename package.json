@@ -1,19 +1,20 @@
 {
-  "name": "vampire-monorepo",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "dev": "pnpm -r --parallel dev",
-    "build": "pnpm --filter @vampire/client build && pnpm --filter vampire build",
-    "typecheck": "pnpm -r typecheck",
-    "release": "pnpm build && cd apps/cli && npm publish --access public",
-    "release:dry": "pnpm build && cd apps/cli && npm publish --dry-run",
-    "db:push": "prisma db push",
-    "db:generate": "prisma generate",
-    "db:studio": "prisma studio"
-  },
-  "devDependencies": {
-    "prisma": "^6.0.0",
-    "typescript": "^5.9.3"
-  }
+    "name": "vampire-monorepo",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "pnpm -r --parallel dev",
+        "build": "pnpm --filter @vampire/client build && pnpm --filter vampire build",
+        "start": "pnpm build && node apps/cli/dist/index.js",
+        "typecheck": "pnpm -r typecheck",
+        "release": "pnpm build && cd apps/cli && npm publish --access public",
+        "release:dry": "pnpm build && cd apps/cli && npm publish --dry-run",
+        "db:push": "prisma db push",
+        "db:generate": "prisma generate",
+        "db:studio": "prisma studio"
+    },
+    "devDependencies": {
+        "prisma": "^6.0.0",
+        "typescript": "^5.9.3"
+    }
 }
