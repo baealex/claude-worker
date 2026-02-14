@@ -19,7 +19,7 @@
     "prisma/"
   ],
   "scripts": {
-    "build": "tsup && cp ../../prisma/schema.prisma prisma/schema.prisma",
+    "build": "tsup && mkdir -p prisma && cp ../../prisma/schema.prisma prisma/schema.prisma",
     "typecheck": "tsc --noEmit",
     "postinstall": "prisma generate --schema ../../prisma/schema.prisma"
   },
