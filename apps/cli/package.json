@@ -21,7 +21,7 @@
   "scripts": {
     "build": "tsup && cp ../../prisma/schema.prisma prisma/schema.prisma",
     "typecheck": "tsc --noEmit",
-    "postinstall": "prisma generate --schema prisma/schema.prisma"
+    "postinstall": "prisma generate --schema ../../prisma/schema.prisma"
   },
   "dependencies": {
     "@prisma/client": "^6.0.0",
