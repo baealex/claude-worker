@@ -14,7 +14,17 @@ export interface CreateAppOptions {
 
 export async function createApp(options: CreateAppOptions = {}) {
   const prisma = new PrismaClient();
-  const app = Fastify({ logger: true });
+  const app = Fastify({
+    logger: {
+      transport: {
+        target: 'pino-pretty',
+        options: {
+          translateTime: 'HH:MM:ss',
+          ignore: 'pid,hostname',
+        },
+      },
+    },
+  });
 
   app.decorate('prisma', prisma);
 
